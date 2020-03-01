@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Home Page</title>
+    <link href="{{url_for('static', filename='./css/adminPageStyle.css')}}" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<h1>Hello, {{ pageData["Name"] }}</h1>
+<hr>
+<h2>List of Managers assigned to Section</h2>
+<table>
+    <tr>
+        <th>Manager Name</th>
+        <th>Managing Section(s)</th>
+        <th>Manager ID</th>
+    </tr>
+    {% for manager in pageData["Managers"] %}
+    <tr>
+        <td>{{ manager["Name"] }}</td>
+        <td>{{ manager["SectionNames"] }}</td>
+        <td>{{ manager["ID"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<hr>
+<h2>Sections</h2>
+
+{% for section in pageData["Sections"] %}
+    <form action="{{ url_for('main.adminSectionPage') }}" method="post">
+        <input type="hidden" name="sID" value="{{ section['ID'] }}">
+        <input type="submit" class='button'  value="{{ section['Name'] }}">
+    </form><br>
+{% endfor %}
+
+
+<hr>
+Create a Section
+<form name="create" action="{{ url_for('main.createSection') }}" method="post">
+    <label>Name</label><br>
+    <input type="text" name="name"><br><br>
+    <label>Managers</label><br>
+    {% for manager in pageData["Managers"] %}
+        <input type="checkbox" name="{{ manager['ID'] }}" value="true"> <label>{{ manager['Name'] }}</label>
+    {% endfor %}
+    <br><br>
+    <input type="submit"  class="submit" onclick="setTimeout(function(){window.location.reload();},1000)" value="Create Section" name="submit">
+</form>
+<hr>
+
+Create an Account
+<form name="create" action="{{ url_for('auth.createAccount') }}" method="post">
+    <label>Name</label><br>
+    <input class="username" type="text" name="name"><br><br>
+    <label>Username</label><br>
+    <input class="username" type="text" name="username"><br><br>
+    <label>Temporary Password</label><br>
+    <input class="password" type="password" required minlength="8" maxlength="32" name="password"><br><br>
+    <label>Account Type</label><br>
+    <select name="type">
+        <option value="manager">Manager</option>
+        <option value="admin">Admin</option>
+    </select><br><br><br>
+
+
+    {% for section in pageData["Sections"] %}
+        <input type="checkbox" name="{{ section['Name'] }}" value="true"> <label>{{ section['Name'] }}</label>
+    {% endfor %}
+    <br>
+    <input type="submit" class="submit" onclick="setTimeout(function(){window.location.reload();},1000)" value="Create Account" name="submit">
+</form>
+<hr>
+All Items
+<br>
+{% for item in pageData["Items"] %}
+{{ item["Name"] }}<br>
+{% endfor %}
+<hr>
+Create an Item
+<form name="create" action="{{ url_for('main.createItem') }}" method="post">
+    <label>Name</label><br>
+    <input type="text" name="name"><br><br>
+    <label>Description</label><br>
+    <textarea name="description"></textarea>
+    <br><br>
+    <input type="submit" class="submit" onclick="setTimeout(function(){window.location.reload();},1000)" value="Create Item" name="submit">
+</form>
+
+{% endblock %}

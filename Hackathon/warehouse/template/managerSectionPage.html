@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{{ super(pageData) }}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Manager Info Page</title>
+    <link href="{{url_for('static', filename='./css/managerPage.css')}}" rel="stylesheet" type="text/css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        function change(itemID, sign){
+            $.post("{{ url_for('main.changeItemManager') }}",
+                {
+                    sID: "{{ pageData['ID'] }}",
+                    ItemID: itemID,
+                    change: $("#items #" + itemID).val(),
+                    sign: sign
+                }
+            );
+            location.reload();
+        }
+    </script>
+
+</head>
+<body>
+
+<h1>{{ pageData["Name"] }}</h1>
+<hr>
+<h2>List of Manager(s):</h2>
+{% for manager in pageData["ManagerNames"] %}
+ <ul>{{ manager }}</ul>
+{% endfor %}
+<hr>
+<h3>List of items:</h3>
+<table id="items">
+    <tr>
+        <th>Item Name</th>
+        <th>Quantity</th>
+        <th>Change</th>
+    </tr>
+    {% for item in pageData["Items"] %}
+        <tr>
+            <td>{{ item["Name"] }}</td>
+            <td>{{ item["Quantity"] }}</td>
+            <td> <button class="addDropButton" onclick="change({{ item['ID'] }} , 1)">+</button> <button class="addDropButton" onclick="change({{ item['ID'] }}, -1)">-</button> <input id="{{ item['ID']}}" type="text"> </td>
+        </tr>
+    {% endfor %}
+</table>
+<hr>
+
+<form action="{{ url_for('main.addItemToSection') }}" method="post">
+    <input type="hidden" value="{{ pageData['ID'] }}" name="sID">
+    <select name="Item">
+        {% for item in pageData["AllItems"] %}
+            <option value="{{ item['ID'] }}">{{ item['Name'] }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" onclick="setTimeout(function(){window.location.reload();},1000)" value="Add Item">
+</form>
+
+{% endblock %}

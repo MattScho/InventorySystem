@@ -1,0 +1,59 @@
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: black;
+    margin-left: 2px;
+}
+
+ul.a {
+    font-size: 20px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr {
+    background-color: #dddddd;
+}
+
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.addDropButton {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.HomePageButt {
+    background-color: peachpuff;
+    color: black;
+    padding: 14px 20px;
+    justify-content: center;
+    width: 10%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    margin: auto;
+}
