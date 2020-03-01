@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    {% if current_user.is_authenticated %}
+
+
+    <!--Everything in the "stick" div is the nav bar-->
+    <div class="stick">
+        <div class="navBar">
+            <img id="collapsedLogo" src="{{url_for('static', filename='assets/warehouse.jpg')}}" width="50px">
+            <!--These are the actual links in the nav bar.-->
+            {% if current_user.isAdmin() %}
+                <a style="min-height: 65px;" href="{{ url_for('main.adminHomepage') }}">&#8962; Home</a>
+            {% elif current_user.isManager() %}
+                <a style="min-height: 65px;" href="{{ url_for('main.managerHomepage') }}">&#8962; Home</a>
+            {% endif %}
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        </div>
+    </div>
+    {% endif %}
+    <div class="container has-text-centered">
+       {% block content %}
+       {% endblock %}
+    </div>
+</body>
+</html>
